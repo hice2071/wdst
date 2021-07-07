@@ -25,7 +25,7 @@ SECRET_KEY = 'p+*e&_ds)o+yl4s=d=kag+t!)!95rz)b*2k9j**e6w%7ru8dzw'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -37,13 +37,18 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'corsheaders',
+    'rest_framework',
+    'rest_framework_swagger',
+    'user',
 ]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
-    'django.middleware.csrf.CsrfViewMiddleware',
+    # 'django.middleware.csrf.CsrfViewMiddleware',  #   自带安全验证不安全，注释掉
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
@@ -70,13 +75,29 @@ TEMPLATES = [
 WSGI_APPLICATION = 'wdst.wsgi.application'
 
 
+# 添加白名单
+# CORS_ORIGIN_ALLOW_ALL = True:指定所有域名ip都可以访问后端接口
+CORS_ORIGIN_ALLOW_ALL = True
+
+# 指定能访问后端接口的ip或域名列表
+# CORS_ORIGIN_WHITELIST = ['127.0.0.1',……]
+
+# 允许跨域
+CORS_ALLOW_CREDENTIALS = True
+
 # Database
 # https://docs.djangoproject.com/en/2.2/ref/settings/#databases
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        # 'ENGINE': 'django.db.backends.sqlite3',
+        # 'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'wdst',
+        'USER': 'root',
+        'PASSWORD': '520hxb520',
+        'HOST': '127.0.0.1',
+        'PORT': '3306',
     }
 }
 
@@ -103,9 +124,13 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/2.2/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+# LANGUAGE_CODE = 'en-us'
+#
+# TIME_ZONE = 'UTC'
 
-TIME_ZONE = 'UTC'
+LANGUAGE_CODE = 'zh-Hans'
+
+TIME_ZONE = 'Asia/Shanghai'
 
 USE_I18N = True
 
